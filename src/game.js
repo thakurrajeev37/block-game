@@ -107,8 +107,9 @@ export function isValidPosition(board, shape, row, col) {
 }
 
 export function rotateShape(shape) {
-  return shape[0].map((_, columnIndex) =>
-    shape.map((row) => row[columnIndex]).reverse(),
+  const reversedRows = [...shape].reverse()
+  return reversedRows[0].map((_, columnIndex) =>
+    reversedRows.map((row) => row[columnIndex]),
   )
 }
 

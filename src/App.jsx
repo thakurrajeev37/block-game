@@ -182,8 +182,8 @@ function App() {
                     <Box
                       key={`${rowIndex}-${cellIndex}`}
                       sx={{
-                        width: CELL_SIZE,
-                        height: CELL_SIZE,
+                        width: { ...CELL_SIZE },
+                        height: { ...CELL_SIZE },
                         borderRadius: 0.75,
                         bgcolor: cell || 'rgba(15, 23, 42, 0.95)',
                         border: '1px solid rgba(148, 163, 184, 0.18)',
