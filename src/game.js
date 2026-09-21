@@ -61,7 +61,7 @@ const PIECES = [
 ]
 
 const SCORE_BY_LINES = {
-  // Classic Tetris-style line clear rewards.
+  // Line clear rewards used by this game.
   1: 100,
   2: 300,
   3: 500,
@@ -70,6 +70,20 @@ const SCORE_BY_LINES = {
 
 function isCompleteRow(row) {
   return row.every((cell) => cell !== null)
+}
+
+function paintPiece(board, piece) {
+  const nextBoard = board.map((row) => [...row])
+
+  piece.shape.forEach((shapeRow, rowIndex) => {
+    shapeRow.forEach((value, columnIndex) => {
+      if (value) {
+        nextBoard[piece.row + rowIndex][piece.col + columnIndex] = piece.color
+      }
+    })
+  })
+
+  return nextBoard
 }
 
 export function createEmptyBoard() {
@@ -135,17 +149,7 @@ export function tryRotatePiece(board, piece) {
 }
 
 export function lockPiece(board, piece) {
-  const nextBoard = board.map((row) => [...row])
-
-  piece.shape.forEach((shapeRow, rowIndex) => {
-    shapeRow.forEach((value, columnIndex) => {
-      if (value) {
-        nextBoard[piece.row + rowIndex][piece.col + columnIndex] = piece.color
-      }
-    })
-  })
-
-  return nextBoard
+  return paintPiece(board, piece)
 }
 
 export function clearCompletedLines(board) {
@@ -168,17 +172,7 @@ export function mergeBoardWithPiece(board, piece) {
     return board
   }
 
-  const nextBoard = board.map((row) => [...row])
-
-  piece.shape.forEach((shapeRow, rowIndex) => {
-    shapeRow.forEach((value, columnIndex) => {
-      if (value) {
-        nextBoard[piece.row + rowIndex][piece.col + columnIndex] = piece.color
-      }
-    })
-  })
-
-  return nextBoard
+  return paintPiece(board, piece)
 }
 
 export function getDropRow(board, piece) {
