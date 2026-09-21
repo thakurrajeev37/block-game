@@ -61,10 +61,15 @@ const PIECES = [
 ]
 
 const SCORE_BY_LINES = {
+  // Classic Tetris-style line clear rewards.
   1: 100,
   2: 300,
   3: 500,
   4: 800,
+}
+
+function isCompleteRow(row) {
+  return row.every((cell) => cell !== null)
 }
 
 export function createEmptyBoard() {
@@ -144,7 +149,7 @@ export function lockPiece(board, piece) {
 }
 
 export function clearCompletedLines(board) {
-  const remainingRows = board.filter((row) => !row.every((cell) => cell !== null))
+  const remainingRows = board.filter((row) => !isCompleteRow(row))
   const clearedLines = BOARD_HEIGHT - remainingRows.length
 
   while (remainingRows.length < BOARD_HEIGHT) {
