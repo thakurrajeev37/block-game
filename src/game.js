@@ -143,7 +143,7 @@ export function lockPiece(board, piece) {
 }
 
 export function clearCompletedLines(board) {
-  const remainingRows = board.filter((row) => row.some((cell) => cell === null))
+  const remainingRows = board.filter((row) => !row.every((cell) => cell !== null))
   const clearedLines = BOARD_HEIGHT - remainingRows.length
 
   while (remainingRows.length < BOARD_HEIGHT) {
