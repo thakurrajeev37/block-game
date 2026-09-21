@@ -61,7 +61,7 @@ const PIECES = [
 ]
 
 const SCORE_BY_LINES = {
-  // Line clear rewards used by this game.
+  // Intentionally flat, beginner-friendly line clear rewards for this game.
   1: 100,
   2: 300,
   3: 500,
@@ -204,10 +204,10 @@ export function createInitialGameState() {
   }
 }
 
-export function settlePiece(state, nextPiece = null) {
+export function settlePiece(state) {
   const lockedBoard = lockPiece(state.board, state.piece)
   const { board, scoreDelta } = clearCompletedLines(lockedBoard)
-  const spawnedPiece = nextPiece ?? spawnPiece(board)
+  const spawnedPiece = spawnPiece(board)
 
   return {
     board,

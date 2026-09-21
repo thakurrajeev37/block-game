@@ -205,7 +205,7 @@ function App() {
                   Block Game
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-                  Clear full rows, keep the stack low, and use the slow beginner-friendly pace to plan ahead.
+                  Clear full rows, keep the stack low, and use the relaxed pace to plan ahead.
                 </Typography>
               </Box>
 
