@@ -131,8 +131,8 @@ function App() {
     return () => window.clearInterval(timer)
   }, [game.gameOver, stepDown])
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
+  const handleKeyDown = useCallback(
+    (event) => {
       if (event.key === 'ArrowLeft') {
         event.preventDefault()
         movePiece(-1)
@@ -149,11 +149,9 @@ function App() {
         event.preventDefault()
         hardDrop()
       }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [hardDrop, movePiece, rotatePiece, stepDown])
+    },
+    [hardDrop, movePiece, rotatePiece, stepDown],
+  )
 
   const displayBoard = useMemo(
     () => mergeBoardWithPiece(game.board, game.piece),
@@ -178,6 +176,7 @@ function App() {
                 ref={boardRef}
                 tabIndex={0}
                 autoFocus
+                onKeyDown={handleKeyDown}
                 sx={{
                   display: 'grid',
                   gridTemplateColumns: `repeat(${BOARD_WIDTH}, minmax(0, 1fr))`,
