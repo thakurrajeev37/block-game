@@ -36,11 +36,18 @@ const controls = [
 function App() {
   const [game, setGame] = useState(createInitialGameState)
   const boardRef = useRef(null)
+  const [resetCount, setResetCount] = useState(0)
 
   const resetGame = useCallback(() => {
     setGame(createInitialGameState())
-    setTimeout(() => boardRef.current?.focus(), 0)
+    setResetCount((n) => n + 1)
   }, [])
+
+  useEffect(() => {
+    if (resetCount > 0) {
+      boardRef.current?.focus()
+    }
+  }, [resetCount])
 
   const settleCurrentPiece = useCallback((state, row = state.piece.row) => {
     return settlePiece({
