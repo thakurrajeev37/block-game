@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Box,
   Button,
@@ -35,10 +35,19 @@ const controls = [
 
 function App() {
   const [game, setGame] = useState(createInitialGameState)
+  const boardRef = useRef(null)
+  const [resetCount, setResetCount] = useState(0)
 
   const resetGame = useCallback(() => {
     setGame(createInitialGameState())
+    setResetCount((n) => n + 1)
   }, [])
+
+  useEffect(() => {
+    if (resetCount > 0) {
+      boardRef.current?.focus()
+    }
+  }, [resetCount])
 
   const settleCurrentPiece = useCallback((state, row = state.piece.row) => {
     return settlePiece({
@@ -166,6 +175,9 @@ function App() {
           <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="stretch">
             <Box sx={{ flex: '0 0 auto', mx: { xs: 'auto', md: 0 } }}>
               <Box
+                ref={boardRef}
+                tabIndex={0}
+                autoFocus
                 sx={{
                   display: 'grid',
                   gridTemplateColumns: `repeat(${BOARD_WIDTH}, minmax(0, 1fr))`,
@@ -175,6 +187,10 @@ function App() {
                   bgcolor: 'rgba(2, 6, 23, 0.95)',
                   border: '1px solid rgba(148, 163, 184, 0.2)',
                   boxShadow: '0 18px 40px rgba(0, 0, 0, 0.35)',
+                  outline: 'none',
+                  '&:focus-visible': {
+                    outline: '2px solid rgba(139, 92, 246, 0.8)',
+                  },
                 }}
               >
                 {displayBoard.flatMap((row, rowIndex) =>
